@@ -1,7 +1,9 @@
-////////////////////////////////////////////////////////////////////////////////////////// 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///    Author: Pierre-Simon Mangeard, psmangeard@gmail.com
 ///    Department of Physics and Astronomy, University of Delaware, October 5 , 2017
-////////////////////////////////////////////////////////////////////////////////////////// 
+///    Author: Sarah Mechbal, smechbal@ucsc.edu
+///    Santa Cruz Institute for Particle Physics, University of California, Santa Cruz, March 12th 2019				
+////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 
 #include "headers.h"
 #include "ALEvent.h"
@@ -47,13 +49,12 @@ void DisplayEventsGIF(int t, int ene, string s)
  LoadMCparameters(MCparamfile,TckReg,TrigReg,GReg,TckZPos,TrigThresh,GuardThresh,ShellReg);
 
 //Input file 
-string Inppath="/home/smechbal/MCproduction/AESOPLITE/rootfiles/NonUniB/V4";
+string Inppath="/home/sarah/AESOPLITE/MCProduction/Detector/ProcessedFiles";	
 string startfile="aesopliteNonUniB_V4";
 string endfile="_fort.99";
 string source = s;
-string directory= "/home/smechbal/Documents/AESOPLITE/Analysis/MCAnalysis/EventDisplay";
+string directory= "/home/sarah/AESOPLITE/Analysis/MCAnalysis/EventDisplay/frames";
 string RecoInd="KFone";
-
 
 //type of particle
 int type=t;
@@ -79,15 +80,16 @@ int mcolor[4]={4,2,3,7};
 //TChain to merge the files for a given energy
  TChain*chain=new TChain("MC");
  int nentries=0;
- chain->Add(Form("%s/%d/%s/RecoEvent_%s_%d_%d%s0001%s_%s.root", Inppath.c_str(),type,source.c_str(),startfile.c_str(),type,Ene,UNIT.c_str(),endfile.c_str(),RecoInd.c_str()));
- TFile *fileout=new TFile(Form("%s/DisplayEventMC_%s_%d_%s.root", directory.c_str(),startfile.c_str(), type,RecoInd.c_str()),"RECREATE");
+ chain->Add(Form("%s/%d/%s/RawEvent_%s_%d_%d%s0001%s.root", Inppath.c_str(),type,source.c_str(),startfile.c_str(),type,Ene,UNIT.c_str(),endfile.c_str()));
+  //chain->Add("/home/sarah/AESOPLITE/MCProduction/Detector/ProcessedFiles/3/30cmSourceNoB28Deg/RecoEvent_aesopliteNonUniB_V4_3_20MeV0001_fort.99_KFone.root");
+	TFile *fileout=new TFile(Form("%s/%s/DisplayEventMC_%s_%d_%s.root", directory.c_str(),source.c_str(),startfile.c_str(), type,RecoInd.c_str()),"RECREATE");
  TCanvas *can=new TCanvas();
  
  int firstpage=0;
  ALEvent *e = new ALEvent();      
  //Define variables to read event
  //Set address to access event data
- chain->SetBranchAddress("Revent",&e); 
+ chain->SetBranchAddress("event",&e); 
  
  // Get number of event in Tree
  nentries=chain->GetEntries();
@@ -710,7 +712,7 @@ int mcolor[4]={4,2,3,7};
 	////////////////////////////////////
 		  
 	can->Update();		
-   // can->Print(Form("%s/EventDisplayMC_%d_%s_Event%d_%s.gif+10", directory.c_str(),type,source.c_str(),i,RecoInd.c_str()));
+ //   can->Print(Form("%s/EventDisplayMC_%d_%s_Event%d_%s.gif+10", directory.c_str(),type,source.c_str(),i,RecoInd.c_str()));
    // can->Print(Form("%s/EventDisplayMC_%d_%s_Event%d_%d_%s.png", directory.c_str(),type,source.c_str(),i,ncount,RecoInd.c_str())); 	
 	  } //END LOOP OVER ALL EVENT HITS
 	  
@@ -731,5 +733,6 @@ int mcolor[4]={4,2,3,7};
  can->Print(Form("%s/EventDisplayMC_%d_%s_%d%s_%s.pdf)", directory.c_str(),type,source.c_str(),Ene, UNIT.c_str(),RecoInd.c_str()));
 
 }//end function
+
 
 

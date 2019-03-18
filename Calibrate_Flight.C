@@ -5,7 +5,6 @@
 
 #include "headers.h"
 #include "ALEvent.h"
-#include <cmath>
 
 ClassImp(ALTckhit)
 ClassImp(ALEvent)
@@ -98,25 +97,25 @@ float CalBar2(float B2) {
 void Calibrate(string RecoID) {
 	
 string ID = RecoID;
-
+string Inpath = "/data/smechbal/Data/FlightData/18A1_SplitBPD";
 	
 TFile *filein;
 TFile *fileout;
-for (int j=0; j<1; j++) {
+for (int j=0; j<22; j++) {
  if (j<10) {
 	//ROOT input file (uncalibrated)
-filein=new TFile(Form("/home/sarah/AESOPLITE/FlightData/BBR2/PRonly/18A1_00%d.BPD.EVENT_%s.root",j,ID.c_str()),"READ");
+filein=new TFile(Form("%s/18A1_00%d.BPD.EVENT_%s.root",Inpath.c_str(),j,ID.c_str()),"READ");
 cout << "Input file is open" <<endl;
 //ROOT output file
-fileout=new TFile(Form("/home/sarah/AESOPLITE/FlightData/BBR2/PRonly_Calibrated/18A1_00%d.BPD.EVENT_%s_Calibrated.root",j,ID.c_str()),"RECREATE");
+fileout=new TFile(Form("%s/18A1_00%d.BPD.EVENT_%s_Calibrated.root",Inpath.c_str(),j,ID.c_str()),"RECREATE");
 cout << "Output file is open" << endl;
  }
 	 if (j>=10) {
 	//ROOT input file (uncalibrated)
-filein=new TFile(Form("/home/sarah/AESOPLITE/FlightData/BBR2/PRonly/18A1_0%d.BPD.EVENT_%s.root",j,ID.c_str()),"READ");
+filein=new TFile(Form("%s/18A1_0%d.BPD.EVENT_%s.root",Inpath.c_str(),j,ID.c_str()),"READ");
 cout << "Input file is open" <<endl;
 //ROOT output file
-fileout=new TFile(Form("/home/sarah/AESOPLITE/FlightData/BBR2/PRonly_Calibrated/18A1_0%d.BPD.EVENT_%s_Calibrated.root",j,ID.c_str()),"RECREATE");
+fileout=new TFile(Form("%s/18A1_0%d.BPD.EVENT_%s_Calibrated.root",Inpath.c_str(),j,ID.c_str()),"RECREATE");
 cout << "Output file is open" << endl;
  }
 //Get Tree from the input file
@@ -331,4 +330,5 @@ c1->SaveAs("/home/sarah/AESOPLITE/Analysis/FlightAnalysis/GrowthCurves/TimeCutsT
 		
 		
 		
+
 

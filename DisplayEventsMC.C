@@ -51,7 +51,7 @@ int doy(int y,int m,int d)
 }
 
 
-void DisplayEventsMC(int t, int ene)
+void DisplayEventsMC(int t, int ene, string s)
 {
  //Load region numbers used in the MC geometry 
  int*TckReg=new int[7];
@@ -77,7 +77,7 @@ void DisplayEventsMC(int t, int ene)
 string Inppath="/home/sarah/AESOPLITE/MCProduction/Detector/ProcessedFiles";	
 string startfile="aesopliteNonUniB_V4";
 string endfile="_fort.99";
-string source = "test";
+string source = s;
 string directory= "/home/sarah/AESOPLITE/Analysis/MCAnalysis/Efficiencies/V4";
 string RecoInd="KFone";
 
@@ -104,8 +104,8 @@ if(t==6)     mass=3.7273;//alpha-particle mass in GeV
 //TChain to merge the files for a given energy
  TChain*chain=new TChain("MC");
  int Nevents=0;
- chain->Add(Form("%s/%d/%s/RecoEvent_%s_%d_%d%s%s_%s.root", Inppath.c_str(),type,source.c_str(),startfile.c_str(),type,Ene,UNIT.c_str(),endfile.c_str(),RecoInd.c_str()));
- TFile *fileout=new TFile(Form("%s/%s/DisplayEventMC_%s_%d_%s.root", directory.c_str(),source.c_str(),startfile.c_str(), type,RecoInd.c_str()),"RECREATE");
+ chain->Add(Form("%s/%d/%s/RawEvent_%s_%d_%d%s0001%s.root", Inppath.c_str(),type,source.c_str(),startfile.c_str(),type,Ene,UNIT.c_str(),endfile.c_str()));
+ TFile *fileout=new TFile(Form("%s/%s/DisplayEventMC_%s_%d_%s.root", directory.c_str(),source.c_str(),startfile.c_str(), type,source.c_str()),"RECREATE");
  TCanvas *can=new TCanvas();
  
  int firstpage=0;
@@ -229,7 +229,7 @@ if(t==6)     mass=3.7273;//alpha-particle mass in GeV
 	 ///////////////////////////////    
     //Events selection
     ///////////////////////////////
-  if(TShell && T1 && T3 && Lhit[0] && Lhit[1] && Lhit[2]  && Lhit[3]  && Lhit[4]  && (!Lhit[5] || Lhit[6]))
+  if(TShell && T1 && T3)
 	//if(TShell && T1 && T3 && NL > 5)
 
 
@@ -613,8 +613,8 @@ if(t==6)     mass=3.7273;//alpha-particle mass in GeV
     fileout->cd();
     can->Write();
     
-    if(firstpage==0) can->Print(Form("%s/EventDisplayMC_%d_%s_%s.pdf(", directory.c_str(),type,source.c_str(),RecoInd.c_str()),Form("Title:Event %d",i));
-    else can->Print(Form("%s/EventDisplayMC_%d_%s_%s.pdf", directory.c_str(),type,source.c_str(),RecoInd.c_str()),Form("Title:Event %d",i));
+    if(firstpage==0) can->Print(Form("%s/EventDisplayMC_%d_%s_%s.pdf(", directory.c_str(),type,source.c_str(),source.c_str()),Form("Title:Event %d",i));
+    else can->Print(Form("%s/EventDisplayMC_%d_%s_%s.pdf", directory.c_str(),type,source.c_str(),source.c_str()),Form("Title:Event %d",i));
 
 	firstpage=-1;
     delete can;
@@ -623,7 +623,7 @@ if(t==6)     mass=3.7273;//alpha-particle mass in GeV
    
  fileout->Close();
  can=new TCanvas();
- can->Print(Form("%s/EventDisplayMC_%d_%s_%s.pdf)", directory.c_str(),type,source.c_str(),RecoInd.c_str()));
+ can->Print(Form("%s/EventDisplayMC_%d_%s_%s.pdf)", directory.c_str(),type,source.c_str(),source.c_str()));
 
 }//end function
 
