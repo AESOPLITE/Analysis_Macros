@@ -37,13 +37,25 @@ ALEvent::ALEvent()// Default
 
  for(int i=0;i<7;i++) L[i]=string();//Data from  ASI lines of the event
  for(int i=0;i<7;i++) flagL[i]=0;////1 if ASI line was present
-   
+
+ //////////////////////////
+ ///////MC variable////////
+ //////////////////////////
+	
  ncase=0; 
  typeMC=-99; //type of particle
  EkMC=0;   //kinetic energy of the particle
  pMC=0;		//momentum at point of injection
  X0MC=Y0MC=Z0MC=0;//Coordinates of the partcle at the injection point 
- CX0MC=CY0MC=CZ0MC=0; //Incidence cosines of the partcle at the injection point 
+ CX0MC=CY0MC=CZ0MC=0; //Incidence cosines of the partcle at the injection point
+
+ typePP=-99;
+ EkPP=0;
+ ZenPP=0;
+ AziPP=0;
+ CoLatSP=0;
+ CoLonSP=0;
+ 	
  Nhits=0; //Number of hits in the event
  typereco=-999; //type of particle
  Ekreco=-999;   //kinetic energy of the particle
@@ -188,6 +200,12 @@ void ALEvent::Copy(ALEvent* e)
    CX0MC =e->get_CX0MC();
    CY0MC =e->get_CY0MC();
    CZ0MC =e->get_CZ0MC();
+   typePP=e->get_typePP();
+   EkPP=e->get_EkPP();
+   ZenPP=e->get_ZenPP();
+   AziPP=e->get_AziPP();
+   CoLatSP=e->get_CoLatSP();
+   CoLonSP=e->get_CoLonSP();
    Nhits =e->get_Nhits();
    typereco =e->get_typereco();
    Ekreco =e->get_Ekreco();
@@ -356,6 +374,7 @@ void ALEvent::get_Layers(int*Lay)
   // cout << "get_Layers tmpTi = " << unsigned(tmpTi) << endl;
   for(int ij=0;ij<7;ij++) Lay[ij]=(int)((tmpTi >>ij) & 0x01);
  }
+
 
 
 
